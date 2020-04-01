@@ -1,0 +1,14 @@
+{
+  "name": "@moreillon/authentication_middleware",
+  "version": "1.0.0",
+  "description": "A simple authentication middleware for Express",
+  "main": "authentication_middleware.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Moreillon",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
