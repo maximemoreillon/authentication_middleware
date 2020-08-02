@@ -1,6 +1,6 @@
 {
   "name": "@moreillon/authentication_middleware",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple authentication middleware for Express",
   "main": "authentication_middleware.js",
   "scripts": {
@@ -12,5 +12,10 @@
     "axios": "^0.19.2",
     "cookies": "^0.8.0",
     "dotenv": "^8.2.0"
+  },
+  "homepage": "https://gitlab.com/moreillon_npm/express_authentication_middleware",
+  "repository": {
+    "type" : "git",
+    "url" : "https://gitlab.com/moreillon_npm/express_authentication_middleware"
   }
 }
