@@ -1,6 +1,6 @@
 {
   "name": "@moreillon/authentication_middleware",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple authentication middleware for Express",
   "main": "authentication_middleware.js",
   "scripts": {
