@@ -4,12 +4,12 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-exports.authentication_api_url = process.env.AUTHENTICATION_API_URL
+const authentication_api_url = process.env.AUTHENTICATION_API_URL
   || process.env.AUTHENTICATION_MANAGER_URL
   || process.env.AUTHENTICATION_MANAGER_API_URL
   || 'http://authentication'
 
-exports.authentication_api_route = '/user_from_jwt'
+exports.url = `${authentication_api_url}/whoami`
 
 let retrieve_jwt = (req, res) => {
   /*
@@ -40,7 +40,7 @@ exports.authenticate = (req, res, next) => {
   // will NOT allow the user to proceed with the request if not authenticated
 
   // retrieve JWT
-  let jwt = retrieve_jwt(req, res)
+  const jwt = retrieve_jwt(req, res)
 
   // if no JWT available, reject request
   if(!jwt) {
@@ -49,13 +49,14 @@ exports.authenticate = (req, res, next) => {
     return
   }
 
+  const headers = { 'Authorization': `Bearer ${jwt}` }
+
   // Send the token to the authentication api for verification
-  const url = `${exports.authentication_api_url}${exports.authentication_api_route}`
-  axios.get(url, {params: {jwt: jwt}} )
-  .then(response => {
+  axios.get(exports.url, {headers} )
+  .then( ({data}) => {
 
     // passing the user object to the route using res.locals
-    res.locals.user = response.data
+    res.locals.user = data
 
     // allow to request to proceed
     next()
@@ -74,22 +75,16 @@ exports.identify_if_possible = (req, res, next) => {
   // WILL allow the user to proceed with the request if authentication fails
 
   // retrieve JWT
-  let jwt = retrieve_jwt(req, res)
+  const jwt = retrieve_jwt(req, res)
 
   // if no JWT available, just proceed with request
-  if(!jwt) {
-    return next()
-  }
+  if(!jwt) return next()
+
+  const headers = { 'Authorization': `Bearer ${jwt}` }
 
   // Send the token to the authentication api for verification
-  axios.get(`${exports.authentication_api_url}${exports.authentication_api_route}`, {params: {jwt: jwt}} )
-  .then(response => {
-    // passing the user object to the route using res.locals
-    res.locals.user = response.data
-  })
+  axios.get(exports.url, {headers} )
+  .then(({data}) => {  res.locals.user = data })
   .catch(error => { console.log(error) })
-  .finally( () => {
-    // No matter the outcome, allow to proceed
-    next()
-  })
+  .finally( () => { next() })
 }

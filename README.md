@@ -15,7 +15,7 @@ const auth = require('@moreillon/authentication_middleware')
 // Set the URL of the authentication service
 // Defaults to http://authentication
 // Can also be set using
-auth.authentication_api_url = 'https://auth.example.com'
+auth.url = 'https://auth.example.com/user_from_jwt'
 
 // Register the middleware application-wide
 app.use(auth.authenticate)
